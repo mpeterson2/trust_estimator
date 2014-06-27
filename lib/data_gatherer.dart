@@ -3,7 +3,8 @@ library GithubDataGather;
 import "dart:async";
 import "dart:convert";
 import "dart:io";
-import "package:trust_estimator/github.dart";
+import "package:trust_estimator/github.dart" hide client;
+import "package:trust_estimator/github.dart" as Github show client;
 
 int _numUsers = 0;
 
@@ -66,6 +67,7 @@ Future<File> _startTimer(List json, int totalusers, File file) {
   new Timer.periodic(new Duration(seconds: 1), (timer) {
     if (_numUsers == totalusers) {
       timer.cancel();
+      Github.client.end();
 
       file.create().then((file) {
         String str = JSON.encode(json);
