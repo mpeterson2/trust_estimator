@@ -1,7 +1,7 @@
 import "dart:io";
-import "package:trust_calc/data_gatherer.dart";
-import "package:trust_calc/trust_from_file.dart";
-import "package:trust_calc/github.dart" as GitHub;
+import "package:trust_estimator/data_gatherer.dart";
+import "package:trust_estimator/trust_from_file.dart";
+import "package:trust_estimator/github.dart" as GitHub;
 import "github_auth.dart";
 
 var users = ["pjhyett", "mojombo", "defunkt", "m"];

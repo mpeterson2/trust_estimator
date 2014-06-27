@@ -3,7 +3,7 @@ library GithubDataGather;
 import "dart:async";
 import "dart:convert";
 import "dart:io";
-import "package:trust_calc/github.dart";
+import "package:trust_estimator/github.dart";
 
 int _numUsers = 0;
 

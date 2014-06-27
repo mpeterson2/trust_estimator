@@ -1,4 +1,4 @@
-name: trust_calc
+name: trust_estimator
 description: A sample web application
 dependencies:
   intl: any

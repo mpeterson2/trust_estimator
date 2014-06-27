@@ -3,8 +3,8 @@ library TrustFromFile;
 import "dart:async";
 import "dart:io";
 import "dart:convert";
-import "package:trust_calc/github.dart";
-import "package:trust_calc/trust_calc.dart" as Trust;
+import "package:trust_estimator/github.dart";
+import "package:trust_estimator/trust_estimator.dart" as Trust;
 
 List<GitHubUser> users = [];
 Map<String, GitHubOrg> orgs = {};
@@ -70,7 +70,7 @@ void _printTrust() {
     for(var uB in users) {
       if(uA.login != uB.login) {
         print("\n$uA's trust in $uB:");
-        var trust = calcTrust(uA, uB);
+        var trust = estimateTrust(uA, uB);
         print("\tTotal trust:    $trust");
       }
     }
@@ -79,7 +79,7 @@ void _printTrust() {
 }
 
 
-int calcTrust(GitHubUser uA, GitHubUser uB) {
+int estimateTrust(GitHubUser uA, GitHubUser uB) {
   var trust = 0;
   followingTrust = Trust.getFollowingTrust(uA, uB);
   orgTrust = Trust.getOrgTrust(uA, uB);

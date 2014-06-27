@@ -1,4 +1,4 @@
-part of TrustCalc;
+part of TrustEstimator;
 
 
 int getFollowingTrust(GitHubUser userA, GitHubUser userB) {

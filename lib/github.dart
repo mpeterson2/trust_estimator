@@ -2,7 +2,7 @@ library Github;
 
 import "dart:async";
 import "dart:convert";
-import "package:trust_calc/http.dart";
+import "package:trust_estimator/http.dart";
 import "package:intl/intl.dart";
 
 part "github/org.dart";
