@@ -12,7 +12,7 @@ var users = ["pjhyett", "mojombo", "defunkt", "m"];
  */ 
 void main() {
   // should be imported from `github_auth.dart.
-  // The format should be: "token [authCode]"
+  // See `github_auth.dart.example` for more info.
   GitHub.auth = auth;
   
   gatherData(users, new File("trust.json")).then(printTrust);

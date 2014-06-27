@@ -39,11 +39,10 @@ void addRepo(GitHubRepo repo) {
 
 Future<String> _get(String url) {
   return client.get(url, headers: {
-    "Authorization": auth
+    "Authorization": "token $auth"
   })..then((_) {
         requestsRemaining--;
         requestsThisHour++;
-        //print("REQUESTS: remaining: $requestsRemaining, made: $requestsThisHour");
       }).catchError((_) => rateLimit());
 }
 
