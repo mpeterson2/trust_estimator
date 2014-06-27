@@ -1,0 +1,5 @@
+name: trust_calc
+description: A sample web application
+dependencies:
+  intl: any
+  unittest: any
