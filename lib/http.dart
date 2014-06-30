@@ -35,7 +35,7 @@ class HttpClient  {
   
   Future _request(_Request re) {
     numConnections++;
-    
+    print(re.url);
     client.getUrl(Uri.parse(re.url)).then((request) {        
         if(re.headers != null) {
           re.headers.forEach((key, val) => request.headers.set(key, val));

@@ -15,22 +15,22 @@ void main(List<String> args) {
   
   var argResults = parser.parse(args);
   
-  var users = argResults.rest;
-  if(users.isEmpty) {
-    users = ["mpeterson2", "dkuntz2"];
-  }
-  
   var file = new File(argResults["file"]);
-  var overwrite = argResults["overwrite"];
-  
-  gatherData(users, file, overwrite: overwrite).then(printTrust);
+
+  var users = argResults.rest;
+  if(users.isNotEmpty) {
+    addUsersToFile(file, users).then(printTrust);
+  }
+  else {
+    printTrust(file);
+  }
 }
 
 ArgParser get parser {
   return new ArgParser(allowTrailingOptions: true)
     ..addFlag("help", abbr: "h", help: "Display this message.", defaultsTo: false, callback: showHelp)
-    ..addFlag("overwrite", abbr: "o", help: "Forces downloading data and overwrite the file even if it exists.", defaultsTo: false)
-    ..addOption("file", abbr: "f", help: "The file to store/pull GitHub data to/from", defaultsTo: "trust.json");
+    ..addOption("file", abbr: "f", help: "The file to store/pull GitHub data to/from", defaultsTo: "../test.json")
+    ..addCommand("ratelimit");
 }
 
 void showHelp(bool h) {

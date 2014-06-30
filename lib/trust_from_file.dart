@@ -22,6 +22,7 @@ Future printTrust(File file) {
 
 Future readFromFile(File file) {
   return file.readAsString()..then((str) {
+    if(str.isEmpty) return;
     List userList = JSON.decode(str);
     for(var userJson in userList) {
       var user = new GitHubUser.fromMap(userJson);
