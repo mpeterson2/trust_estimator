@@ -70,19 +70,27 @@ Future readFromFile(File file) {
 
 
 void _printTrust() {
-  Trust.printInfo = true;
+  //Trust.printInfo = true;
+  
+  var allTrust = {};
   
   for(var uA in users) {
-    print("____$uA's Trust____");
+    //print("____$uA's Trust____");
+    var userATrust = {};
     for(var uB in users) {
       if(uA.login != uB.login) {
-        print("\n$uA's trust in $uB:");
+        //print("\n$uA's trust in $uB:");
         var trust = estimateTrust(uA, uB);
-        print("\tTotal trust:    $trust");
+        //print("\tTotal trust:    $trust");
+        userATrust[uB.login] = trust;
       }
     }
-    print("\n");
+    
+    allTrust[uA.login] = userATrust;
+    //print("\n");
   }
+  
+  print("\n\n${JSON.encode(allTrust)}\n\n");
 }
 
 
