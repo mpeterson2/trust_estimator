@@ -21,6 +21,7 @@ Future printTrust(File file) {
 }
 
 Future readFromFile(File file) {
+  file.createSync();
   return file.readAsString()..then((str) {
     if(str.isEmpty) return;
     List userList = JSON.decode(str);

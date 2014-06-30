@@ -29,7 +29,7 @@ void main(List<String> args) {
 ArgParser get parser {
   return new ArgParser(allowTrailingOptions: true)
     ..addFlag("help", abbr: "h", help: "Display this message.", defaultsTo: false, callback: showHelp)
-    ..addOption("file", abbr: "f", help: "The file to store/pull GitHub data to/from", defaultsTo: "../test.json")
+    ..addOption("file", abbr: "f", help: "The file to store/pull GitHub data to/from", defaultsTo: "bin/trust.json")
     ..addCommand("ratelimit");
 }
 
