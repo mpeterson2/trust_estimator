@@ -34,7 +34,7 @@ ArgParser get parser {
   return new ArgParser(allowTrailingOptions: true)
     ..addFlag("help", abbr: "h", help: "Display this message.", defaultsTo: false, callback: showHelp)
     ..addOption("file", abbr: "f", help: "The file to store/pull GitHub data to/from", defaultsTo: "bin/trust.json")
-    ..addOption("users", abbr: "u", help: "specify a json list of users from a file.", defaultsTo: null)
+    ..addOption("users", abbr: "u", help: "Specify a json list of users from a file.", defaultsTo: null)
     ..addFlag("rate-limit", abbr: "r", help: "Display GitHub rate limit info", defaultsTo: false, callback: showRateLimit);
 }
 
