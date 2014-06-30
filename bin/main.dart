@@ -30,13 +30,22 @@ ArgParser get parser {
   return new ArgParser(allowTrailingOptions: true)
     ..addFlag("help", abbr: "h", help: "Display this message.", defaultsTo: false, callback: showHelp)
     ..addOption("file", abbr: "f", help: "The file to store/pull GitHub data to/from", defaultsTo: "bin/trust.json")
-    ..addCommand("ratelimit");
+    ..addFlag("rate-limit", abbr: "r", help: "Display GitHub rate limit info", defaultsTo: false, callback: showRateLimit);
 }
 
 void showHelp(bool h) {
   if(h) {
     print(parser.getUsage());
-    print("\nrest\t\t   The new users to add to the estimation");
+    print("\nrest\t\t\t The new users to add to the estimation");
     exit(1);
+  }
+}
+
+void showRateLimit(bool r) {
+  if(r) {
+    GitHub.rateLimit().then((_) {
+      GitHub.client.end();
+      exit(1);
+    });
   }
 }

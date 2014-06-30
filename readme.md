@@ -22,4 +22,5 @@ This project is designed to estimate the amount of trust one GitHub user may hav
 ### Args
 - \-h, \-\-[no-]help: Display this message.
 - \-f, \-\-file: The file to store/pull GitHub data to/from (defaults to "trust.json")
+- \-r, \-\-[no\-]rate-limit: Display GitHub rate limit info
 - rest: The new users to add to the estimation
