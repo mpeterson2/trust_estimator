@@ -5,7 +5,7 @@ This project is designed to estimate the amount of trust one GitHub user may hav
 ##How To Use
 
 ###Install
-
+ - Install [Dart](https://www.dartlang.org/)
  - Clone the project
  - Get a GitHub auth key ([here](https://github.com/settings/applications/new), [more info](https://developer.github.com/v3/oauth/))
  - Create a file in `bin` called `github_auth.dart`.
