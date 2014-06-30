@@ -2,13 +2,16 @@ import "dart:io";
 import "package:unittest/unittest.dart";
 import "package:trust_estimator/trust_from_file.dart" as Trust;
 import "package:trust_estimator/data_gatherer.dart";
+import "package:trust_estimator/github.dart" as GitHub;
+import "../bin/github_auth.dart";
 
 void main() {
+  GitHub.auth = auth;
   test("", testEstimation);
 }
 
 void testEstimation() {
-  gatherData(["mpeterson2", "dkuntz2"], new File("test.json"))
+  addUsersToFile(new File("test.json"), ["mpeterson2", "dkuntz2"])
     .then(Trust.readFromFile)
     .then(expectAsync((_) {
       var loginA = "mpeterson2";

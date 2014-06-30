@@ -24,3 +24,8 @@ This project is designed to estimate the amount of trust one GitHub user may hav
 - \-f, \-\-file: The file to store/pull GitHub data to/from (defaults to "trust.json")
 - \-r, \-\-[no\-]rate-limit: Display GitHub rate limit info
 - rest: The new users to add to the estimation
+
+### Tests
+  - Be sure you have setup your auth code (described in the install section)
+  - cd into the `test` folder
+  - run `dart test.dart`
