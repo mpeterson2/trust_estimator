@@ -2,7 +2,7 @@ import "dart:io";
 import "package:unittest/unittest.dart";
 import "package:trust_estimator/trust_from_file.dart" as Trust;
 import "package:trust_estimator/data_gatherer.dart";
-import "package:trust_estimator/github.dart" as GitHub;
+import "package:trust_estimator/github.dart";
 import "../bin/github_auth.dart";
 
 void main() {

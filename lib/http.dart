@@ -9,34 +9,77 @@ class HttpClient  {
   int numConnections = 0;
   io.HttpClient client;
   Queue<_Request> requests;
+  Queue<_Request> bypassRequests;
   DateTime _hourTime = new DateTime.now();
   Timer requestTimer;
+  Function rateLimit;
+  bool checkingRateLimit = false;
+  int requestsRemaining = 0;
+  num totalRequests = 0;
   
   HttpClient() {
     client = new io.HttpClient();
     requests = new Queue();
+    bypassRequests = new Queue();
     
     _startRequestTimer();
+  }
+  
+  Future waitForRateLimit() {
+    var com = new Completer();
+    if(requestsRemaining <= 0) {
+      checkingRateLimit = true;
+      rateLimit();
+      new Timer.periodic(new Duration(minutes: 1), (timer) {
+        checkingRateLimit = true;
+        rateLimit().then((_) {
+          if(requestsRemaining > 0) {
+            checkingRateLimit = false;
+            com.complete();
+            timer.cancel();
+          }
+        });
+      });
+    }
+    else {
+      com.complete();
+    }    
+    
+    return com.future;
   }
   
   void _startRequestTimer() {
     requestTimer = new Timer.periodic(new Duration(milliseconds: 25), (timer) {
       if(numConnections == 0) {
         _makeRequest();
+        _makeBypassRequest();
       }
     });
   }
   
   void _makeRequest() {
     if(requests.isNotEmpty) {
-      _request(requests.removeFirst());
+      if(!checkingRateLimit) {
+        waitForRateLimit().then((_) {
+          totalRequests++;
+          _request(requests.removeFirst());
+        });
+      }
+    }
+  }
+  
+  void _makeBypassRequest() {
+    if(bypassRequests.isNotEmpty) {
+      _request(bypassRequests.removeFirst());
     }
   }
   
   Future _request(_Request re) {
     numConnections++;
-    print(re.url);
-    client.getUrl(Uri.parse(re.url)).then((request) {        
+    print("Remaining: $requestsRemaining, ${re.url}");
+    client.getUrl(Uri.parse(re.url))
+      .then((request) {
+        requestsRemaining--;
         if(re.headers != null) {
           re.headers.forEach((key, val) => request.headers.set(key, val));
         }
@@ -58,9 +101,14 @@ class HttpClient  {
     return re.com.future;
   }
   
-  Future get(String url, {Map headers}) {
+  Future get(String url, {Map headers, bypass: false}) {
     var com = new Completer();
-    requests.add(new _Request(url, com, headers));
+    if(bypass) {
+      bypassRequests.add(new _Request(url, com, headers));
+    }
+    else {
+      requests.add(new _Request(url, com, headers));
+    }
     
     return com.future;
   }

@@ -1,6 +1,7 @@
 part of Github;
 
 class GitHubUser {
+  GitHub gitHub;
   static List<GitHubUser> allUsers;
   String login, name, email, company, location;
   String followersUrl, followingUrl, starredUrl, organizationsUrl, reposUrl, watchingUrl;
@@ -8,9 +9,13 @@ class GitHubUser {
   List<GitHubOrg> orgs;
   List<GitHubRepo> starredRepos, watchingRepos;
   
-  GitHubUser();
+  GitHubUser() {
+    gitHub = new GitHub();
+  }
   
   GitHubUser.fromMap(Map user) {
+    gitHub = new GitHub();
+    
     login = user["login"];
     name = user["name"];
     email = user["email"];
@@ -77,7 +82,7 @@ class GitHubUser {
     var waitFor = [];
     var com = new Completer();
     
-    _get(url).then((res) {
+    GitHub._get(url).then((res) {
       var users = new List();
       
       for(var map in JSON.decode(res)) {
@@ -100,7 +105,7 @@ class GitHubUser {
       return com;
     } 
     else {
-      return _getPeople("$API/users")
+      return _getPeople("${GitHub.API}/users")
           ..then((users) => allUsers = users);
     }
   }
@@ -108,21 +113,21 @@ class GitHubUser {
   static Future<GitHubUser> getUser(String login) {
     Completer com = new Completer();
     
-    if(_users.containsKey(login)) {
-      com.complete(_users[login]);
+    if(GitHub._users.containsKey(login)) {
+      com.complete(GitHub._users[login]);
     }
     
     else {
-      _get("$API/users/$login").then((res) {
+      GitHub._get("${GitHub.API}/users/$login").then((res) {
         if(!JSON.decode(res).containsKey("login")) {
-          rateLimit();
-          client.end();
+          GitHub.rateLimit();
+          GitHub.client.end();
         }
         
         else {
           GitHubUser user = new GitHubUser.fromJson(res);
-          _users[user.login] = user;
-          com.complete(_users[user.login]);
+          GitHub._users[user.login] = user;
+          com.complete(GitHub._users[user.login]);
         }
       });
     }

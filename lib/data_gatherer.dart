@@ -4,8 +4,7 @@ import "dart:async";
 import "dart:convert";
 import "dart:io";
 import "package:trust_estimator/trust_from_file.dart";
-import "package:trust_estimator/github.dart" hide client;
-import "package:trust_estimator/github.dart" as GitHub show client;
+import "package:trust_estimator/github.dart";
 
 Map userToMap(GitHubUser user) {
   var orgs = user.orgs.map((org) => org.login).toList();

@@ -1,17 +1,21 @@
 part of Github;
 
 class GitHubRepo {
+  GitHub gitHub;
   int id;
   String name;
   String ownerLogin;
   GitHubUser owner;
 
-  GitHubRepo();
+  GitHubRepo() {
+    gitHub = new GitHub();
+  }
   
   GitHubRepo.fromMap(Map map) {
     id = map["id"];
     name = map["name"];
     ownerLogin = map["owner"]["login"];
+    gitHub = new GitHub();
   }
 
   Future getMoreInfo() {
@@ -29,14 +33,14 @@ class GitHubRepo {
   static Future<List<GitHubRepo>> getRepos(String url) {
     var com = new Completer();
 
-    _get(url).then((res) {
+    GitHub._get(url).then((res) {
       var repos = [];
       var waitFor = [];
 
       for (var map in JSON.decode(res)) {
         var repo = new GitHubRepo.fromMap(map);
-        if (_repos.containsKey(repo.id)) {
-          repos.add(_repos[repo.id]);
+        if (GitHub._repos.containsKey(repo.id)) {
+          repos.add(GitHub._repos[repo.id]);
         } else {
           repos.add(repo);
           waitFor.add(repo.getMoreInfo());

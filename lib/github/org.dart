@@ -1,6 +1,7 @@
 part of Github;
 
 class GitHubOrg {
+  GitHub gitHub;
   int id;
   String login;
   
@@ -9,6 +10,7 @@ class GitHubOrg {
   GitHubOrg.fromMap(Map map) {
     id = map["id"];
     login = map["login"];
+    gitHub = new GitHub();
   }
   
   factory GitHubOrg.fromJson(String json) {
@@ -18,15 +20,15 @@ class GitHubOrg {
   static Future<List<GitHubOrg>> getOrgs(String url) {
     var com = new Completer();
     
-    _get(url).then((res) {
+    GitHub._get(url).then((res) {
       var orgs = []; 
       for(Map map in JSON.decode(res)) {
         var org = new GitHubOrg.fromMap(map);
-        if(_orgs.containsKey(org.id)) {
-          orgs.add(_orgs[org.id]);
+        if(GitHub._orgs.containsKey(org.id)) {
+          orgs.add(GitHub._orgs[org.id]);
         }
         else {
-          _orgs[org.id] = org;
+          GitHub._orgs[org.id] = org;
           orgs.add(org);
         }
       }

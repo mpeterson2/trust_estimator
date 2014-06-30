@@ -17,6 +17,7 @@ int orgTrust;
 Future printTrust(File file) {
   return readFromFile(file)..then((_) {
     _printTrust();
+    print("TOTAL REQUESTS MADE: ${GitHub.client.totalRequests}");
   });
 }
 
