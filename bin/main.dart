@@ -36,7 +36,7 @@ ArgParser get parser {
 void showHelp(bool h) {
   if(h) {
     print(parser.getUsage());
-    print("\nrest\t\t\tThe list of usernames to estimate trust");
+    print("\nrest\t\t   The new users to add to the estimation");
     exit(1);
   }
 }

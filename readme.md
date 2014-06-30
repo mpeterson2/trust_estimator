@@ -14,13 +14,12 @@ This project is designed to estimate the amount of trust one GitHub user may hav
 
 ### Run
 
- - Run `dart bin/main {-o -f filepath} [users]`
+ - Run `dart bin/main {-o -f filepath} [newUsers]`
    - users is a list of usernames to run the estimation over
    - filepath is the file you would like to pull/store the GitHub data in
  - See results printed to the screen
 
 ### Args
 - \-h, \-\-[no-]help: Display this message.
-- \-o, \-\-[no-]overwrite: Forces downloading data and overwrite the file even if it exists.
 - \-f, \-\-file: The file to store/pull GitHub data to/from (defaults to "trust.json")
-- rest: The list of usernames to estimate trust
+- rest: The new users to add to the estimation
