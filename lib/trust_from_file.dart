@@ -21,6 +21,10 @@ Future printTrust(File file) {
 }
 
 Future readFromFile(File file) {
+  users.clear();
+  orgs.clear();
+  repos.clear();
+  
   file.createSync();
   return file.readAsString()..then((str) {
     if(str.isEmpty) return;
