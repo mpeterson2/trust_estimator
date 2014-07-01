@@ -5,7 +5,6 @@ class GitHubRepo {
   int id;
   String name;
   String ownerLogin;
-  GitHubUser owner;
 
   GitHubRepo() {
     gitHub = new GitHub();
@@ -13,21 +12,16 @@ class GitHubRepo {
   
   GitHubRepo.fromMap(Map map) {
     id = map["id"];
+    if(id == null)
+      id = map["repoId"];
+    
     name = map["name"];
-    ownerLogin = map["owner"]["login"];
+    if(map["owner"] is Map)
+      ownerLogin = map["owner"]["login"];
+    else
+      ownerLogin = map["owner"];
+    
     gitHub = new GitHub();
-  }
-
-  Future getMoreInfo() {
-    var waitFor = [];
-
-    waitFor.add(_getOwner());
-
-    return Future.wait(waitFor);
-  }
-
-  Future<GitHubUser> _getOwner() {
-    return GitHubUser.getUser(ownerLogin)..then((user) => owner = user);
   }
 
   static Future<List<GitHubRepo>> getRepos(String url) {
@@ -39,11 +33,11 @@ class GitHubRepo {
 
       for (var map in JSON.decode(res)) {
         var repo = new GitHubRepo.fromMap(map);
-        if (GitHub._repos.containsKey(repo.id)) {
-          repos.add(GitHub._repos[repo.id]);
+        if (GitHub.repos.containsKey(repo.id)) {
+          repos.add(GitHub.repos[repo.id]);
         } else {
           repos.add(repo);
-          waitFor.add(repo.getMoreInfo());
+          //waitFor.add(repo.getMoreInfo());
         }
       }
 
@@ -54,6 +48,6 @@ class GitHubRepo {
   }
 
   String toString() {
-    return "$name - ${owner.name}";
+    return "$name - ($id)";
   }
 }

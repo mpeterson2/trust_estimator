@@ -29,23 +29,27 @@ class HttpClient  {
     var com = new Completer();
     if(requestsRemaining <= 0) {
       checkingRateLimit = true;
-      rateLimit();
-      new Timer.periodic(new Duration(minutes: 1), (timer) {
-        checkingRateLimit = true;
-        rateLimit().then((_) {
-          if(requestsRemaining > 0) {
-            checkingRateLimit = false;
-            com.complete();
-            timer.cancel();
-          }
-        });
+      
+      Timer timer = new Timer.periodic(new Duration(minutes: 1), (timer) {
+        rateLimit().then((_) => rateLimitThen(com, timer));
       });
+      
+      rateLimit().then((_) => rateLimitThen(com, timer));
     }
     else {
       com.complete();
     }    
     
     return com.future;
+  }
+  
+  void rateLimitThen(Completer com, Timer timer) {
+    if(requestsRemaining > 0) {
+      checkingRateLimit = false;
+      timer.cancel();
+      
+      com.complete();
+    }
   }
   
   void _startRequestTimer() {
@@ -61,8 +65,10 @@ class HttpClient  {
     if(requests.isNotEmpty) {
       if(!checkingRateLimit) {
         waitForRateLimit().then((_) {
-          totalRequests++;
-          _request(requests.removeFirst());
+          if(requests.isNotEmpty) {
+            totalRequests++;
+            _request(requests.removeFirst());
+          }
         });
       }
     }
@@ -113,7 +119,7 @@ class HttpClient  {
     return com.future;
   }
   
-  void end() {
+  void close() {
     requestTimer.cancel();
   }
 }

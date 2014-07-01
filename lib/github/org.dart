@@ -9,6 +9,8 @@ class GitHubOrg {
   
   GitHubOrg.fromMap(Map map) {
     id = map["id"];
+    if(id == null)
+      id = map["orgId"];
     login = map["login"];
     gitHub = new GitHub();
   }
@@ -24,11 +26,11 @@ class GitHubOrg {
       var orgs = []; 
       for(Map map in JSON.decode(res)) {
         var org = new GitHubOrg.fromMap(map);
-        if(GitHub._orgs.containsKey(org.id)) {
-          orgs.add(GitHub._orgs[org.id]);
+        if(GitHub.orgs.containsKey(org.id)) {
+          orgs.add(GitHub.orgs[org.id]);
         }
         else {
-          GitHub._orgs[org.id] = org;
+          GitHub.orgs[org.id] = org;
           orgs.add(org);
         }
       }

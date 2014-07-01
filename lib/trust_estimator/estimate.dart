@@ -1,9 +1,20 @@
 part of TrustEstimator;
 
 
-int getFollowingTrust(GitHubUser userA, GitHubUser userB) {
+Trust getTrust(GitHubUser userA, GitHubUser userB) {
   var trust = 0;
   
+  trust += getFollowingTrust(userA, userB);
+  trust += getOrgTrust(userA, userB);
+  trust += getStarredTrust(userA, userB);
+  trust += getWatchingTrust(userA, userB);
+
+  return new Trust(userA.login, userB.login, trust);
+}
+
+int getFollowingTrust(GitHubUser userA, GitHubUser userB) {
+  var trust = 0;
+
   if(userA.following.any((u) => u.login == userB.login) || userB.followers.any((u) => u.login == userA.login)) {
     if(userA.followers.any((u) => u.login == userB.login) || userB.following.any((u) => u.login == userA.login)) {
       _print("\t\tFollowing Type: mutual");
@@ -17,6 +28,9 @@ int getFollowingTrust(GitHubUser userA, GitHubUser userB) {
   else if(userA.followers.any((u) => u.login == userB.login) || userB.following.any((u) => u.login == userA.login)) {
     _print("\t\tFollowing Type: leader");
     trust += 1;
+  }
+  else {
+    _print("\t\tFollowing Type: none");
   }
   
   var bothFollowing = 0;
@@ -35,10 +49,11 @@ int getFollowingTrust(GitHubUser userA, GitHubUser userB) {
 }
 
 int getOrgTrust(GitHubUser userA, GitHubUser userB) {
+  empty();
   var trust = 0;
   
   for(var org in userA.orgs) {
-    if(userB.orgs.any((o) => o.login == org.login)) {
+    if(userB.orgs.any((o) => o.id == org.id)) {
       trust += 5;
     }
   }
@@ -53,7 +68,7 @@ int getStarredTrust(GitHubUser userA, GitHubUser userB) {
   
   var userBStarredA = 0;
   for(var repo in userB.starredRepos) {
-    if(repo.owner.login == userA.login) {
+    if(repo.ownerLogin == userA.login) {
       trust += 1;
       userBStarredA++;
     }
@@ -64,7 +79,7 @@ int getStarredTrust(GitHubUser userA, GitHubUser userB) {
   
   var userAStarredUserB = 0;
   for(var repo in userA.starredRepos) {
-    if(repo.owner.login == userB.login) {
+    if(repo.ownerLogin == userB.login) {
       trust += 5;
       userAStarredUserB++;
     }
@@ -93,7 +108,7 @@ int getWatchingTrust(GitHubUser userA, GitHubUser userB) {
   
   var userBWatch = 0;
   for(var repo in userB.watchingRepos) {
-    if(repo.owner.login == userA.login) {
+    if(repo.ownerLogin == userA.login) {
       userBWatch++;
       trust += 1;
     }
@@ -103,7 +118,7 @@ int getWatchingTrust(GitHubUser userA, GitHubUser userB) {
   
   var userAWatch = 0;
   for(var repo in userA.watchingRepos) {
-    if(repo.owner.login == userB.login) {
+    if(repo.ownerLogin == userB.login) {
       userAWatch++;
       trust += 10;
     }

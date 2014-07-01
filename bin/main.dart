@@ -49,7 +49,7 @@ void showHelp(bool h) {
 void showRateLimit(bool r) {
   if(r) {
     GitHub.rateLimit().then((_) {
-      GitHub.client.end();
+      GitHub.client.close();
       exit(1);
     });
   }

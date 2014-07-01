@@ -47,7 +47,7 @@ Future readFromFile(File file) {
       for(var map in userJson["stars"]) {
         GitHubRepo repo = new GitHubRepo()
           ..name = map["name"]
-          ..owner = (new GitHubUser()..login = map["owner"])
+          ..ownerLogin = map["owner"]
           ..id = map["id"];
         repos[repo.name] = repo;
         user.starredRepos.add(repo);
@@ -56,7 +56,7 @@ Future readFromFile(File file) {
       for(var map in userJson["watch"]) {
         GitHubRepo repo = new GitHubRepo()
           ..name = map["name"]
-          ..owner = (new GitHubUser()..login = map["owner"])
+          ..ownerLogin = map["owner"]
           ..id = map["id"];
         repos[repo.name] = repo;
         user.watchingRepos.add(repo);

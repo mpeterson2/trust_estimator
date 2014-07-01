@@ -36,6 +36,26 @@ class GitHubUser {
     
     organizationsUrl = user["organizations_url"];
     reposUrl = user["repos_url"];
+    
+    if(user["followers"] is List) {
+      followers = user["followers"].map((l) => new GitHubUser()..login = l).toList();
+    }
+    
+    if(user["following"] is List) {
+      following = user["following"].map((l) => new GitHubUser()..login = l).toList();
+    }
+    
+    if(user["orgs"] is List) {
+      orgs = user["orgs"].map((id) => new GitHubOrg()..id = id).toList();
+    }
+    
+    if(user["stars"] is List) {
+      starredRepos = user["stars"].map((id) => new GitHubRepo()..id = id).toList();
+    }
+    
+    if(user["watch"] is List) {
+      watchingRepos = user["watch"].map((id) => new GitHubRepo()..id = id).toList();
+    }
   }
   
   factory GitHubUser.fromJson(String json) {
@@ -86,12 +106,10 @@ class GitHubUser {
       var users = new List();
       
       for(var map in JSON.decode(res)) {
-        waitFor.add(getUser(map["login"]));
+        users.add(new GitHubUser()..login = map["login"]);
       }
       
-      Future.wait(waitFor).then((users) {
-        com.complete(users);
-      });
+      com.complete(users);
     });
     
     return com.future;
@@ -113,22 +131,15 @@ class GitHubUser {
   static Future<GitHubUser> getUser(String login) {
     Completer com = new Completer();
     
-    if(GitHub._users.containsKey(login)) {
-      com.complete(GitHub._users[login]);
+    if(GitHub.users.containsKey(login)) {
+      com.complete(GitHub.users[login]);
     }
     
     else {
       GitHub._get("${GitHub.API}/users/$login").then((res) {
-        if(!JSON.decode(res).containsKey("login")) {
-          GitHub.rateLimit();
-          GitHub.client.end();
-        }
-        
-        else {
-          GitHubUser user = new GitHubUser.fromJson(res);
-          GitHub._users[user.login] = user;
-          com.complete(GitHub._users[user.login]);
-        }
+        GitHubUser user = new GitHubUser.fromJson(res);
+        GitHub.users[user.login] = user;
+        com.complete(GitHub.users[user.login]);
       });
     }
     

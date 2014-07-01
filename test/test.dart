@@ -7,7 +7,15 @@ import "../bin/github_auth.dart";
 
 void main() {
   GitHub.auth = auth;
-  test("", testEstimation);
+  group("tests", () {
+    setUp(setupTest);
+    
+    test("Test Estimation", testEstimation);
+  });
+}
+
+void setupTest() {
+  new GitHub();
 }
 
 void testEstimation() {

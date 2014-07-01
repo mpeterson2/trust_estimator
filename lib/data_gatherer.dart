@@ -12,12 +12,12 @@ Map userToMap(GitHubUser user) {
   var following = user.following.map((u) => u.login).toList();
   var stars = user.starredRepos.map((r) => {
     "name": r.name,
-    "owner": r.owner.login,
+    "owner": r.ownerLogin,
     "id": r.id
   }).toList();
   var watch = user.watchingRepos.map((r) => {
     "name": r.name,
-    "owner": r.owner.login,
+    "owner": r.ownerLogin,
     "id": r.id
   }).toList();
 
@@ -35,14 +35,12 @@ Map userToMap(GitHubUser user) {
   return userMap;
 }
 
-Future<String> addUserToFile(File file, String login) {
+Future<String> getAUser(String login) {
   var com = new Completer();
-  readFromFile(file).then((_) {
     GitHubUser.getUser(login).then((user) {
       user.getMoreInfo().then((_) {
         com.complete(userToMap(user));
       });
-    });
   });
   
   return com.future;
@@ -55,12 +53,12 @@ Future<File> addUsersToFile(File file, List<String> logins) {
   readFromFile(file).then((_) {
     for(var login in logins) {
       if(!users.any((u) => u.login == login)) {
-        waitFor.add(addUserToFile(file, login));
+        waitFor.add(getAUser(login));
       }
     }
     
     Future.wait(waitFor).then((newUsers) {
-      GitHub.client.end();
+      GitHub.client.close();
       var allUsers = newUsers.toList();
       for(var user in users) {
         allUsers.add(userToMap(user));
