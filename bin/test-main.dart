@@ -14,12 +14,10 @@ void main() {
   
   db.open()
   //.then((_) => db.clear())
-  .then((_) => db.trusts.clear())
   .then((_) => grabUsers(db))
   .then((_) => db.repos.all().then((repos) => repos.forEach((repo) => github.addRepo(repo))))
   .then((_) => db.users.all().then((users) => users.forEach((user) => github.addUser(user))))
   .then((_) => db.orgs.all().then((orgs) => orgs.forEach((org) => github.addOrg(org))))
-  .then((_) => db.trusts.all().then(print))
   .then((_) => Trust.saveAllTrust(db))
   .then((_) => shutdown(db));
 }
