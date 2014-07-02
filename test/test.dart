@@ -36,12 +36,12 @@ void testEstimation() {
   grabUsers(database, logins)
   .then((_) => database.users.getList(logins))
   .then((users) => setupUsers(database, users))
-  .then((expectAsync((users) {
+  .then((expectAsync((List<GitHubUser> users) {
     var loginA = logins[0];
     var loginB = logins[1];
     
-    var userA = users[0];
-    var userB = users[1];
+    var userA = users.firstWhere((user) => user.login == logins[0]);
+    var userB = users.firstWhere((user) => user.login == logins[1]);
 
     expect(userA.login, loginA);
     expect(userB.login, loginB);

@@ -28,6 +28,5 @@ This project is designed to estimate the amount of trust one GitHub user may hav
 
 
 ### Tests
-  - Be sure you have setup your auth code (described in the install section)
-  - cd into the `test` folder
-  - run `dart test.dart`
+  - Be sure you have followed the `Install` section
+  - run `dart test/test.dart`
