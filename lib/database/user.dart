@@ -24,6 +24,17 @@ class _UserDb extends ObjectDb {
     return com.future;
   }
   
+  Future<List<GitHubUser>> getList(List<String> logins) {
+    var com = new Completer();
+    
+    var users = [];
+    collection.find(where.oneFrom("login", logins))
+      .forEach((map) => users.add(new GitHubUser.fromMap(map)))
+      .whenComplete(() => com.complete(users));
+    
+    return com.future;
+  }
+  
   Future<bool> exists(String login) {
     var com = new Completer();
     

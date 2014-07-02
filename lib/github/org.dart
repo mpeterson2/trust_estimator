@@ -24,15 +24,9 @@ class GitHubOrg {
     
     GitHub._get(url).then((res) {
       var orgs = []; 
+      
       for(Map map in JSON.decode(res)) {
-        var org = new GitHubOrg.fromMap(map);
-        if(GitHub.orgs.containsKey(org.id)) {
-          orgs.add(GitHub.orgs[org.id]);
-        }
-        else {
-          GitHub.orgs[org.id] = org;
-          orgs.add(org);
-        }
+        orgs.add(new GitHubOrg.fromMap(map));
       }
       
       com.complete(orgs);

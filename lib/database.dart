@@ -14,8 +14,8 @@ class Database {
   _RepoDb repos;
   _OrgDb orgs;
   
-  Database() {
-    mongoDb = new Db("mongodb://127.0.0.1:27017");
+  Database([String dbName="trust-estimator"]) {
+    mongoDb = new Db("mongodb://127.0.0.1:27017/$dbName");
     users = new _UserDb(this);
     repos = new _RepoDb(this);
     orgs = new _OrgDb(this);

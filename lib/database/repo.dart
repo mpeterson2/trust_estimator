@@ -9,7 +9,7 @@ class _RepoDb extends ObjectDb {
     return collection.insert({"repoId": repo.id, "name": repo.name, "owner": repo.ownerLogin});
   }
   
-  Future get(int id) {
+  Future<GitHubRepo> get(int id) {
     var com = new Completer();
     collection.findOne({"repoId": id})
       .then((map) {

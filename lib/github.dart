@@ -12,43 +12,12 @@ part "github/user.dart";
 
 class GitHub {
   static final API = "https://api.github.com";
-  static HttpClient client = new HttpClient();
+  static HttpClient client = new HttpClient()..rateLimit = rateLimit;
   static int requestsRemaining = 5000;
   static int requestsThisHour = 0;
   static int maxRequestsPerHour = 5000;
   static final DATEFORMAT = new DateFormat.jms();
   static String auth;
-
-  static Map<String, GitHubUser> users;
-  static Map<int, GitHubOrg> orgs;
-  static Map<int, GitHubRepo> repos;
-
-  bool get _notSetup => users == null;
-
-  GitHub() {
-    if (_notSetup) {
-      users = {};
-      orgs = {};
-      repos = {};
-      client.rateLimit = rateLimit;
-    }
-  }
-
-  void addUser(GitHubUser user) {
-    users[user.login] = user;
-  }
-
-  void removeUser(GitHubUser user) {
-    users.remove(user);
-  }
-
-  void addOrg(GitHubOrg org) {
-    orgs[org.id] = org;
-  }
-
-  void addRepo(GitHubRepo repo) {
-    repos[repo.id] = repo;
-  }
 
   static Future<String> _get(String url, {bypass: false}) {
     var com = new Completer();

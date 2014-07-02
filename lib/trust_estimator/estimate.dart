@@ -4,12 +4,21 @@ part of TrustEstimator;
 Trust getTrust(GitHubUser userA, GitHubUser userB) {
   var trust = 0;
   
-  trust += getFollowingTrust(userA, userB);
-  trust += getOrgTrust(userA, userB);
-  trust += getStarredTrust(userA, userB);
-  trust += getWatchingTrust(userA, userB);
+  var fTrust = getFollowingTrust(userA, userB);
+  var oTrust = getOrgTrust(userA, userB);
+  var sTrust = getStarredTrust(userA, userB);
+  var wTrust = getWatchingTrust(userA, userB);
+  
+  trust += fTrust;
+  trust += oTrust;
+  trust += sTrust;
+  trust += wTrust;
 
-  return new Trust(userA.login, userB.login, trust);
+  return new Trust(userA.login, userB.login)
+    ..followingTrust = fTrust
+    ..orgTrust = oTrust
+    ..starredTrust = sTrust
+    ..watchingTrust = wTrust;
 }
 
 int getFollowingTrust(GitHubUser userA, GitHubUser userB) {
@@ -17,20 +26,14 @@ int getFollowingTrust(GitHubUser userA, GitHubUser userB) {
 
   if(userA.following.any((u) => u.login == userB.login) || userB.followers.any((u) => u.login == userA.login)) {
     if(userA.followers.any((u) => u.login == userB.login) || userB.following.any((u) => u.login == userA.login)) {
-      _print("\t\tFollowing Type: mutual");
       trust += 10;
     }
     else {
-      _print("\t\tFollowing Type: follower");
       trust += 5;
     }
   }
   else if(userA.followers.any((u) => u.login == userB.login) || userB.following.any((u) => u.login == userA.login)) {
-    _print("\t\tFollowing Type: leader");
     trust += 1;
-  }
-  else {
-    _print("\t\tFollowing Type: none");
   }
   
   var bothFollowing = 0;
@@ -42,10 +45,7 @@ int getFollowingTrust(GitHubUser userA, GitHubUser userB) {
     }
   }
   
-  _print("\t\tBoth following: $bothFollowing");
-  _print("\tFollowing trust: $trust");
   return trust;
-  
 }
 
 int getOrgTrust(GitHubUser userA, GitHubUser userB) {
@@ -57,9 +57,7 @@ int getOrgTrust(GitHubUser userA, GitHubUser userB) {
       trust += 5;
     }
   }
-  
-  _print("\t\tBoth in ${trust~/5} orgs");
-  _print("\tOrgs trust:      $trust");
+
   return trust;
 }
 
@@ -74,9 +72,6 @@ int getStarredTrust(GitHubUser userA, GitHubUser userB) {
     }
   }
   
-  _print("\t\t$userB starred $userA: $userBStarredA");
-  
-  
   var userAStarredUserB = 0;
   for(var repo in userA.starredRepos) {
     if(repo.ownerLogin == userB.login) {
@@ -84,8 +79,6 @@ int getStarredTrust(GitHubUser userA, GitHubUser userB) {
       userAStarredUserB++;
     }
   }
-  
-  _print("\t\t$userA starred $userB: $userAStarredUserB");
   
   var bothStarred = 0;
   for(var repoA in userA.starredRepos) {
@@ -96,9 +89,6 @@ int getStarredTrust(GitHubUser userA, GitHubUser userB) {
       }
     }
   }
-  
-  _print("\t\tBoth starred: $bothStarred");
-  _print("\tStarred trust:   $trust");
   
   return trust;
 }
@@ -114,8 +104,6 @@ int getWatchingTrust(GitHubUser userA, GitHubUser userB) {
     }
   }
   
-  _print("\t\t$userB watching $userA: $userBWatch");
-  
   var userAWatch = 0;
   for(var repo in userA.watchingRepos) {
     if(repo.ownerLogin == userB.login) {
@@ -123,8 +111,6 @@ int getWatchingTrust(GitHubUser userA, GitHubUser userB) {
       trust += 10;
     }
   }
-  
-  _print("\t\t$userA watching $userB: $userAWatch");
   
   var bothWatch = 0;
   for(var repoA in userA.watchingRepos) {
@@ -135,9 +121,6 @@ int getWatchingTrust(GitHubUser userA, GitHubUser userB) {
       }
     }
   }
-  
-  _print("\t\tBoth are watching: $bothWatch");
-  _print("\tWatching trust:  $trust");
   
   return trust;
 }

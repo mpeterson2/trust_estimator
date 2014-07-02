@@ -32,13 +32,7 @@ class GitHubRepo {
       var waitFor = [];
 
       for (var map in JSON.decode(res)) {
-        var repo = new GitHubRepo.fromMap(map);
-        if (GitHub.repos.containsKey(repo.id)) {
-          repos.add(GitHub.repos[repo.id]);
-        } else {
-          repos.add(repo);
-          //waitFor.add(repo.getMoreInfo());
-        }
+        repos.add(new GitHubRepo.fromMap(map));
       }
 
       Future.wait(waitFor).then((_) => com.complete(repos));

@@ -1,44 +1,61 @@
-import "dart:io";
+import "dart:async";
 import "package:unittest/unittest.dart";
-import "package:trust_estimator/trust_from_file.dart" as Trust;
-import "package:trust_estimator/data_gatherer.dart";
+import "package:trust_estimator/trust_estimator.dart";
 import "package:trust_estimator/github.dart";
+import "package:trust_estimator/database.dart";
 import "../bin/github_auth.dart";
+
+Database database;
 
 void main() {
   GitHub.auth = auth;
   group("tests", () {
     setUp(setupTest);
+    tearDown(teardownTest);
     
     test("Test Estimation", testEstimation);
   });
 }
 
-void setupTest() {
+Future setupTest() {
+  print("Setup");
   new GitHub();
+  database = new Database("trust-estimator-test");
+  return database.open();
 }
 
+Future teardownTest() {
+  GitHub.client.close();
+  return database.close();
+}
+
+// TODO Rewrite test.
 void testEstimation() {
-  addUsersToFile(new File("test.json"), ["mpeterson2", "dkuntz2"])
-    .then(Trust.readFromFile)
-    .then(expectAsync((_) {
-      var loginA = "mpeterson2";
-      var loginB = "dkuntz2";
-      var userA = Trust.users.where((u) => u.login == loginA).first;
-      var userB = Trust.users.where((u) => u.login == loginB).first;
-      expect(userA.login, loginA);
-      expect(userB.login, loginB);
-      
-      Trust.estimateTrust(userA, userB);
-      expect(Trust.watchingTrust, 17);
-      expect(Trust.followingTrust, 10);
-      expect(Trust.starredTrust, 0);
-      expect(Trust.orgTrust, 10);
-      
-      Trust.estimateTrust(userB, userA);
-      expect(Trust.watchingTrust, 8);
-      expect(Trust.followingTrust, 10);
-      expect(Trust.starredTrust, 0);
-      expect(Trust.orgTrust, 10);
-    }));
+  
+  var logins = ["mpeterson2", "dkuntz2"];
+  grabUsers(database, logins)
+  .then((_) => database.users.getList(logins))
+  .then((users) => setupUsers(database, users))
+  .then((expectAsync((users) {
+    var loginA = logins[0];
+    var loginB = logins[1];
+    
+    var userA = users[0];
+    var userB = users[1];
+
+    expect(userA.login, loginA);
+    expect(userB.login, loginB);
+    
+    var trustA = getTrust(userA, userB);
+    expect(trustA.followingTrust, 10);
+    expect(trustA.orgTrust, 10);
+    expect(trustA.starredTrust, 0);
+    expect(trustA.watchingTrust, 17);
+    
+    var trustB = getTrust(userB, userA);
+    expect(trustB.followingTrust, 10);
+    expect(trustB.orgTrust, 10);
+    expect(trustB.starredTrust, 0);
+    expect(trustB.watchingTrust, 8);
+  })));
 }

@@ -131,17 +131,11 @@ class GitHubUser {
   static Future<GitHubUser> getUser(String login) {
     Completer com = new Completer();
     
-    if(GitHub.users.containsKey(login)) {
-      com.complete(GitHub.users[login]);
-    }
-    
-    else {
-      GitHub._get("${GitHub.API}/users/$login").then((res) {
-        GitHubUser user = new GitHubUser.fromJson(res);
-        GitHub.users[user.login] = user;
-        com.complete(GitHub.users[user.login]);
-      });
-    }
+    GitHub._get("${GitHub.API}/users/$login").then((res) {
+      GitHubUser user = new GitHubUser.fromJson(res);      
+      
+      com.complete(user);
+    });
     
     return com.future;
   }

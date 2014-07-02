@@ -1,8 +1,6 @@
 import "dart:convert";
 import "dart:io";
 import "package:args/args.dart";
-import "package:trust_estimator/data_gatherer.dart";
-import "package:trust_estimator/trust_from_file.dart";
 import "package:trust_estimator/github.dart";
 import "github_auth.dart";
 
@@ -27,7 +25,7 @@ void main(List<String> args) {
   
   users.addAll(argResults.rest);
   
-  addUsersToFile(file, users).then(printTrust);
+  //addUsersToFile(file, users).then(printTrust);
 }
 
 ArgParser get parser {
