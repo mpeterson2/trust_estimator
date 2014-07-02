@@ -68,14 +68,14 @@ ArgParser get parser {
     ..addFlag("help", abbr: "h", help: "Display this message.", defaultsTo: false, callback: showHelp)
     ..addFlag("rate-limit", abbr: "r", help: "Display GitHub rate limit info.", defaultsTo: false, callback: showRateLimit)
     ..addFlag("clear-db", abbr: "c", help: "Clear the database", defaultsTo: false)
-    ..addOption("users", abbr: "u", help: "Specify a json list of users from a file.", defaultsTo: null)
+    ..addOption("users", abbr: "u", help: "Specify a file with a json list of users to estimate trust on.", defaultsTo: null)
     ..addOption("format", abbr: "f", help: "Specify the output format", allowed: ["json", "readable"], defaultsTo: "readable");
 }
 
 void showHelp(bool h) {
   if(h) {
     print(parser.getUsage());
-    print("\nrest\t\t\t The new users to add to the estimation");
+    print("\nrest\t\t\t Specify users to estimate trust on.");
     exit(0);
   }
 }

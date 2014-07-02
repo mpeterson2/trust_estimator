@@ -70,7 +70,9 @@ Future<List<GitHubUser>> setupUsers(Database db, List<GitHubUser> users) {
     }
   }
     
-  Future.wait(waitFor).then((_) => com.complete(users));
+  Future.wait(waitFor)
+    .then((_) => com.complete(users
+        ..sort((a, b) => a.login.toLowerCase().compareTo(b.login.toLowerCase()))));
   
   return com.future;
 }
@@ -125,13 +127,7 @@ Future grabUserAndSave(String login, Database db) {
 void empty() {
   bool oldPrintInfo = _falsey;
   _falsey = false;
-  _print("");
+  if(_falsey) print("");
   _falsey = oldPrintInfo;
 }
-
 bool _falsey = false;
-
-void _print(Object object) {
-  if(_falsey)
-    print(object);
-}
