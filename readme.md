@@ -20,11 +20,14 @@ This project is designed to estimate the amount of trust one GitHub user may hav
  - See results printed to the screen
 
 ### Args
-- \-h, \-\-[no-]help: Display this message.
-- \-f, \-\-file: The file to store/pull GitHub data to/from (defaults to "trust.json")
-- \-u, \-\-users: Specify a json list of users from a file.
-- \-r, \-\-[no\-]rate-limit: Display GitHub rate limit info
-- rest: The new users to add to the estimation
+ - \-h, --[no-]help: Display this message.
+ - \-r, --[no-]rate-limit: Display GitHub rate limit info.
+ - \-c, --[no-]clear-db: Clear the database
+ - \-u, --users: Specify a file with a json list of users to estimate trust on.
+ - \-f, --format: Specify the output format [json, readable (default)]
+
+ - rest (anything typed after other args): Specify users to estimate trust on.
+
 
 ### Tests
   - Be sure you have setup your auth code (described in the install section)
