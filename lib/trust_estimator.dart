@@ -38,14 +38,14 @@ Future printAllTrustAsJson(Database db, List<String> logins) {
       var trustMap = {};
       
       for(var userA in users) {
-        var userAMap = {};
+        var userTrustList = [];
         for(var userB in users) {
           if(userA.login != userB.login) {
             var trust = getTrust(userA, userB);
-            userAMap[userB.login] = trust.toMap();
+            userTrustList.add(trust.toMap());
           }
         }
-        trustMap[userA.login] = userAMap;
+        trustMap[userA.login] = userTrustList;
       }
       
       print(JSON.encode(trustMap));
