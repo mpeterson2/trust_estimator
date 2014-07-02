@@ -28,5 +28,5 @@ This project is designed to estimate the amount of trust one GitHub user may hav
 
 
 ### Tests
-  - Be sure you have followed the `Install` section
+  - Be sure you have followed the [Install](#install) section
   - run `dart test/test.dart`
