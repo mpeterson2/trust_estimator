@@ -15,12 +15,9 @@ This project is designed to estimate the amount of trust one GitHub user may hav
 
 ### Run
 
- - Run `dart bin/main {-o -f filepath} [newUsers]`
-   - users is a list of usernames to run the estimation over
-   - filepath is the file you would like to pull/store the GitHub data in
- - See results printed to the screen
+ - Run `dart bin/main {options} [users]`
 
-### Args
+#### Args
  - \-h, --[no-]help: Display this message.
  - \-r, --[no-]rate-limit: Display GitHub rate limit info.
  - \-c, --[no-]clear-db: Clear the database
