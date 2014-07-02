@@ -35,7 +35,7 @@ Future printAllTrustAsJson(Database db, List<String> logins) {
   
   db.users.getList(logins).then((incompleteUsers) {
     setupUsers(db, incompleteUsers).then((users) {
-      var trustMap = {};
+      var trustList = [];
       
       for(var userA in users) {
         var userTrustList = [];
@@ -45,10 +45,10 @@ Future printAllTrustAsJson(Database db, List<String> logins) {
             userTrustList.add(trust.toMap());
           }
         }
-        trustMap[userA.login] = userTrustList;
+        trustList.add(userTrustList);
       }
       
-      print(JSON.encode(trustMap));
+      print(JSON.encode(trustList));
       
       com.complete();
     });
