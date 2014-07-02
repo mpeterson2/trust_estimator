@@ -123,15 +123,15 @@ Future grabUserAndSave(String login, Database db) {
  * print nothing, and reenable it if it was enabled.
  */ 
 void empty() {
-  bool oldPrintInfo = falsey;
-  falsey = false;
+  bool oldPrintInfo = _falsey;
+  _falsey = false;
   _print("");
-  falsey = oldPrintInfo;
+  _falsey = oldPrintInfo;
 }
 
-bool falsey = false;
+bool _falsey = false;
 
 void _print(Object object) {
-  if(falsey)
+  if(_falsey)
     print(object);
 }
