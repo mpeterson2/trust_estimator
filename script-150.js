@@ -1,0 +1,2 @@
+var devs150 = ["alanjrogers","balevine","dannygreg","jspahrsummers","keithduncan","vladoherman"]
+var trustMatrix150 = [[0,14,115,177,107,0],[14,0,14,14,7,161],[111,14,0,156,105,0],[138,14,133,0,121,0],[107,7,109,148,0,7],[0,161,0,0,7,0]]
