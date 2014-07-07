@@ -15,7 +15,7 @@ This project is designed to estimate the amount of trust one GitHub user may hav
 
 ### Run
 
- - Run `dart bin/main {options} [users]`
+ - Run `dart bin/main {args} [users]`
 
 #### Args
  - \-h, --[no-]help: Display this message.
