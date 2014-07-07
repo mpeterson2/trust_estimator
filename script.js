@@ -4,8 +4,8 @@ $(document).ready(function() {
     .padding(.05)
     .matrix(trustMatrix);
 
-  var w = $("body").width(),
-      h = $("body").height() - 150,
+  var w = $("body").width() - 10,
+      h = $("body").height(),
       r0 = Math.min(w, h) * .33,
       r1 = r0 * 1.1;
 

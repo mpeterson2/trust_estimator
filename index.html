@@ -14,10 +14,18 @@
   <script src="script.js"></script>
   <body>
     <h1>Trust Values for GitHub Developers</h1>
-    <h4>Developers with a trust value of >=50 or trust another developer with a value of >=50</h4>
-    <div id="chart"></div>
-    <div id="explination">
-      <p>The thicker the lines, the more trust a user has. The color of the line is the color of the developer who trusts the other more.</p>
+    
+    <div id="explanation">
+      <h3>Explanation</h3>
+      <p>
+        Only developers trusted by, or trusting another developer with a value of >= 50 are shown. The trust of being in the GitHub organization is also removed.
+      </p>
+      <p>
+        The thicker the lines, the more trust a user has. The color of the line is the color of the developer who is trusted more.
+      </p>
     </div>
+    
+    <div id="chart"></div>
+
   </body>
 </html>
