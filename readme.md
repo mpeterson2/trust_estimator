@@ -20,9 +20,9 @@ This project is designed to estimate the amount of trust one GitHub user may hav
 #### Args
  - \-h, --[no-]help: Display this message.
  - \-r, --[no-]rate-limit: Display GitHub rate limit info.
- - \-c, --[no-]clear-db: Clear the database
+ - \-c, --[no-]clear-db: Clear the database.
  - \-u, --users: Specify a file with a json list of users to estimate trust on.
- - \-f, --format: Specify the output format [json, readable (default)]
+ - \-f, --format: Specify the output format [json, readable (default)].
 
  - rest (anything typed after other args): Specify users to estimate trust on.
 
