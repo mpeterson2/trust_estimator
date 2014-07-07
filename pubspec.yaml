@@ -1,7 +1,0 @@
-name: trust_estimator
-description: A sample web application
-dependencies:
-  args: any
-  intl: any
-  mongo_dart: any
-  unittest: any

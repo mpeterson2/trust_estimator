@@ -5,4 +5,4 @@
  * To register the app, visit:
  * https://github.com/settings/applications/new
  */
-final auth = "yourAuthCode";
+final auth = "be134121a1caabdc660680329c132e87f17ba4a8";
