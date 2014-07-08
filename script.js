@@ -34,6 +34,14 @@ $(document).ready(function() {
 })
 
 function makeChart(data, devs, number) {
+  $("<h3/>")
+    .html("<em>t</em> = " + number)
+    .appendTo("#charts");
+
+  var div = $("<div/>")
+    .attr("id", number)
+    .appendTo("#charts");
+
   var chord = d3.layout.chord()
     .padding(.05)
     .matrix(data);
@@ -47,7 +55,7 @@ function makeChart(data, devs, number) {
       .domain(d3.range(4))
       .range(colors);
 
-  var svg = d3.select("#chart-" + number)
+  var svg = d3.select(div[0])
     .append("svg:svg")
       .attr("width", w)
       .attr("height", h)
