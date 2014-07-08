@@ -25,13 +25,27 @@
   <script src="script-182.js"></script>
 
   <script src="script.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      makeChart(trustMatrix25, devs25, 25);
+      makeChart(trustMatrix40, devs40, 40);
+      makeChart(trustMatrix50, devs50, 50);
+      makeChart(trustMatrix75, devs75, 75);
+      makeChart(trustMatrix100, devs100, 100);
+      makeChart(trustMatrix125, devs125, 125);
+      makeChart(trustMatrix150, devs150, 150);
+      makeChart(trustMatrix166, devs166, 166);
+      makeChart(trustMatrix182, devs182, 182);
+    })
+  </script>
   </head>
   <body>
 
     <div id="explanation">
       <h3>Explanation</h3>
       <p>
-        Only developers trusted by, or trusting another developer with a value of >= 50 are shown. The trust of being in the GitHub organization is also removed.
+        Only developers trusted by, or trusting another developer with a value of greater than or equal to <em>t</em> are shown. The trust of being in the GitHub organization is also removed.
       </p>
       <p>
         The thicker the lines, the more trust a user has. The color of the line is the color of the developer who is trusted more.

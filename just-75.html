@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <title>Graph</title>
+
+    <style>
+      #charts {
+        text-align: center;
+      }
+      #charts div {
+
+      }
+    </style>
+
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js" charset="utf-8"></script>
+
+  <script src="script-75.js"></script>
+
+  <script src="script.js"></script>
+  <script>
+    $(document).ready(function() {
+      makeChart(trustMatrix75, devs75, 75, false);
+    });
+  </script>
+  </head>
+  <body>
+    
+    <div id="charts">
+
+    </div>
+
+  </body>
+</html>

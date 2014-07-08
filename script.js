@@ -21,22 +21,15 @@ var colors = ["#4433AA",
               "#43AC3A"
               ];
 
-$(document).ready(function() {
-  makeChart(trustMatrix25, devs25, 25);
-  makeChart(trustMatrix40, devs40, 40);
-  makeChart(trustMatrix50, devs50, 50);
-  makeChart(trustMatrix75, devs75, 75);
-  makeChart(trustMatrix100, devs100, 100);
-  makeChart(trustMatrix125, devs125, 125);
-  makeChart(trustMatrix150, devs150, 150);
-  makeChart(trustMatrix166, devs166, 166);
-  makeChart(trustMatrix182, devs182, 182);
-})
+function makeChart(data, devs, number, header) {
+  if(header === undefined) header = true;
 
-function makeChart(data, devs, number) {
-  $("<h3/>")
-    .html("<em>t</em> = " + number)
-    .appendTo("#charts");
+
+  if(header) {
+    $("<h3/>")
+      .html("<em>t</em> = " + number)
+      .appendTo("#charts");
+  }
 
   var div = $("<div/>")
     .attr("id", number)
