@@ -23,17 +23,22 @@ var colors = ["#4433AA",
 
 function makeChart(data, devs, number, header) {
   if(header === undefined) header = true;
+  var fullDiv = $("<div/>")
+    .attr("class", "chartHolder");
 
+  $("<hr/>").appendTo(fullDiv);
 
   if(header) {
     $("<h3/>")
       .html("<em>t</em> = " + number)
-      .appendTo("#charts");
+      .appendTo(fullDiv);
   }
 
   var div = $("<div/>")
     .attr("id", number)
-    .appendTo("#charts");
+    .appendTo(fullDiv);
+
+  fullDiv.appendTo("#charts");
 
   var chord = d3.layout.chord()
     .padding(.05)
