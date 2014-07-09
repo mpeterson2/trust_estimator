@@ -23,19 +23,35 @@ var colors = ["#4433AA",
 
 function makeChart(data, devs, number, header) {
   if(header === undefined) header = true;
+
+  var active = number == 75 ? "active" : "";
+
+  var tab = $("<li/>")
+    .attr("class", active);
+
+  var tabLink = $("<a/>")
+    .attr("role", "tab")
+    .attr("data-toggle", "tab")
+    .attr("href", "#" + number)
+    .html("<em>t</em> = " + number)
+    .click(function(e) {
+      e.preventDefault();
+      $("#" + number).tab("show");
+      console.log($("#" + number));
+    })
+    .appendTo(tab);
+
+  tab.appendTo($("#chartsTab"));
+
   var fullDiv = $("<div/>")
-    .attr("class", "chartHolder");
+    .attr("class", "chartHolder tab-pane " + active)
+    .attr("id", number)
 
-  $("<hr/>").appendTo(fullDiv);
-
-  if(header) {
-    $("<h3/>")
-      .html("<em>t</em> = " + number)
-      .appendTo(fullDiv);
-  }
+  $("<h3/>")
+    .html("<em>t</em> = " + number)
+    .appendTo(fullDiv);
 
   var div = $("<div/>")
-    .attr("id", number)
     .appendTo(fullDiv);
 
   fullDiv.appendTo("#charts");

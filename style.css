@@ -1,0 +1,47 @@
+body {
+  color: #555;
+}
+
+
+
+#intro {
+  background-color: #33B5E5;
+  color: #F1F1F1;
+  padding-bottom: 50px;
+}
+
+#intro p {
+  font-size: 16px;
+}
+
+#title a {
+  color: white;
+  text-decoration: none;
+}
+
+#title a:hover {
+  text-decoration: underline;
+}
+
+
+#chartsContainer {
+  padding-top: 5px;
+}
+
+.chartHolder h3 {
+  margin-top: 50px;
+  margin-bottom: -25px;
+}
+
+#charts {
+  text-align: center;
+}
+
+.nav-tabs {
+  text-align: center;
+}
+
+.nav-tabs li {
+  float: none;
+  display: inline-block;
+}
