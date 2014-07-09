@@ -107,18 +107,22 @@ function makeChart(data, devs, number, header) {
       .attr("y2", 0)
       .style("stroke", "#000");
 
-  ticks.append("svg:text")
+  ticks.append("svg:a")
       .attr("class", "chordText")
-      .attr("x", 8)
-      .attr("dy", ".35em")
-      .attr("font-size", "22px")
-      .attr("text-anchor", function(d) {
-        return d.angle > Math.PI ? "end" : null;
+      .attr("xlink:href", function(d) {
+        return "https://github.com/" + d.label;
       })
-      .attr("transform", function(d) {
-        return d.angle > Math.PI ? "rotate(180)translate(-16)" : null;
-      })
-      .text(function(d) { return d.label; });
+      .append("svg:text")
+        .attr("x", 8)
+        .attr("dy", ".35em")
+        .attr("font-size", "22px")
+        .attr("text-anchor", function(d) {
+          return d.angle > Math.PI ? "end" : null;
+        })
+        .attr("transform", function(d) {
+          return d.angle > Math.PI ? "rotate(180)translate(-16)" : null;
+        })
+        .text(function(d) { return d.label; });
 
   svg.append("svg:g")
       .attr("class", "chord")
