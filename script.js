@@ -108,6 +108,7 @@ function makeChart(data, devs, number, header) {
       .style("stroke", "#000");
 
   ticks.append("svg:text")
+      .attr("class", "chordText")
       .attr("x", 8)
       .attr("dy", ".35em")
       .attr("font-size", "22px")
