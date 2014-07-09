@@ -21,13 +21,11 @@ var colors = ["#4433AA",
               "#43AC3A"
               ];
 
-function makeChart(data, devs, number, header) {
-  if(header === undefined) header = true;
-
-  var active = number == 75 ? "active" : "";
+function makeChart(data, devs, number, active) {
+  var activeClass = active !== true ? active = "" : "active";
 
   var tab = $("<li/>")
-    .attr("class", active);
+    .attr("class", activeClass);
 
   var tabLink = $("<a/>")
     .attr("role", "tab")
@@ -44,7 +42,7 @@ function makeChart(data, devs, number, header) {
   tab.appendTo($("#chartsTab"));
 
   var fullDiv = $("<div/>")
-    .attr("class", "chartHolder tab-pane " + active)
+    .attr("class", "chartHolder tab-pane " + activeClass)
     .attr("id", number)
 
   $("<h3/>")
@@ -76,6 +74,9 @@ function makeChart(data, devs, number, header) {
     .append("svg:g")
       .attr("transform", "translate(" + w / 2 + "," + h / 2 + ")");
 
+  var fadey = fade(.05);
+  var unfadey = fade(0.8);
+
   svg.append("svg:g")
     .selectAll("path")
       .data(chord.groups)
@@ -85,9 +86,9 @@ function makeChart(data, devs, number, header) {
       .attr("d", d3.svg.arc()
         .innerRadius(r0)
         .outerRadius(r1))
-      .on("mouseover", fade(.05))
-      .on("mouseout", fade(0.8));
-
+      .on("mouseover", fadey)
+      .on("mouseout", unfadey);
+    
   var ticks = svg.append("svg:g")
     .selectAll("g")
       .data(chord.groups)
@@ -123,6 +124,10 @@ function makeChart(data, devs, number, header) {
           return d.angle > Math.PI ? "rotate(180)translate(-16)" : null;
         })
         .text(function(d) { return d.label; });
+
+  svg.selectAll("a")
+    .on("mouseover", fadey)
+    .on("mouseout", fade(0.8));
 
   svg.append("svg:g")
       .attr("class", "chord")
