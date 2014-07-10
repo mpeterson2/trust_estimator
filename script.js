@@ -60,7 +60,7 @@ function makeChart(data, devs, number, active) {
 
   var w = 1000,
       h = 1000,
-      r0 = Math.min(w, h) * .30,
+      r0 = Math.min(w, h) * .29,
       r1 = r0 * 1.1;
 
   var fill = d3.scale.ordinal()
@@ -127,7 +127,7 @@ function makeChart(data, devs, number, active) {
 
   svg.selectAll("a")
     .on("mouseover", fadey)
-    .on("mouseout", fade(0.8));
+    .on("mouseout", unfadey);
 
   svg.append("svg:g")
       .attr("class", "chord")
@@ -138,6 +138,10 @@ function makeChart(data, devs, number, active) {
       .style("stroke", function(d) { return d3.rgb(fill(d.target.index)).darker(); })
       .attr("d", d3.svg.chord().radius(r0))
       .style("opacity", 1);
+      
+  svg.selectAll("g.chord path")
+    .on("mouseover", fadeNotOver(0.05))
+    .on("mouseout", fadeNotOver(0.8));
   
   fade(0.8)();
 
@@ -163,5 +167,19 @@ function makeChart(data, devs, number, active) {
         .transition()
           .style("opacity", opacity);
     };
+  }
+
+  function fadeNotOver(opacity) {
+    return function(g, i) {
+      //console.log("length: " + svg.selectAll("g.chord path").length);
+      //console.log("i: " + i);
+      //console.log(svg.selectAll("g.chord path")[0][i]);
+      svg.selectAll("g.chord path")
+        .filter(function(d, ind) {
+          return i != ind;
+        })
+        .transition()
+          .style("opacity", opacity);
+    }
   }
 }
