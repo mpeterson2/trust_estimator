@@ -2,3 +2,9 @@ packages
 pubspec.lock
 bin/github_auth.dart
 *.json
+
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
